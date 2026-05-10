@@ -1,5 +1,18 @@
 # sv
 
+
+brans business name
+nature
+produce service
+audience
+content goal saes
+tone 
+lang
+format fb website
+promo cta 
+brand reference 
+
+
 Everything you need to build a Svelte project, powered by [`sv`](https://github.com/sveltejs/cli).
 
 ## Creating a project
