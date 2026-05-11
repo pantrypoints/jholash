@@ -387,7 +387,7 @@
 
   <div>
     <label class="block text-xs tracking-widest uppercase font-light mb-2" style="color: var(--purple-mid);">Service Interested In</label>
-    <select name="service"
+    <select name="subj"
       class="w-full px-5 py-3.5 text-sm font-light border-0 border-b-2 bg-white focus:outline-none transition-colors appearance-none"
       style="border-color: var(--purple-pale); color: var(--charcoal);"
       onfocus={(e) => (e.target as HTMLSelectElement).style.borderColor = 'var(--gold-bright)'}
@@ -401,7 +401,7 @@
 
   <div>
     <label class="block text-xs tracking-widest uppercase font-light mb-2" style="color: var(--purple-mid);">Message</label>
-    <textarea name="message" rows="4"
+    <textarea name="msg" rows="4"
       placeholder="Preferred schedule, questions, or anything you'd like us to know..."
       class="w-full px-5 py-3.5 text-sm font-light border-0 border-b-2 bg-white focus:outline-none transition-colors resize-none"
       style="border-color: var(--purple-pale); color: var(--charcoal);"
