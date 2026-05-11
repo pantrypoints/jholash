@@ -57,19 +57,7 @@
             class="relative rounded-3xl overflow-hidden w-72 md:w-96"
             style="border: 2px solid rgba(212,168,67,0.4); aspect-ratio: 3/4; background: linear-gradient(160deg, var(--purple-deep) 0%, #1A0A30 100%);"
           >
-            <!-- Elegant placeholder with initials -->
-            <div class="absolute inset-0 flex flex-col items-center justify-center">
-              <div
-                class="w-32 h-32 rounded-full flex items-center justify-center mb-4"
-                style="background: rgba(212,168,67,0.12); border: 2px solid rgba(212,168,67,0.4);"
-              >
-                <span class="font-display text-5xl font-light" style="color: var(--gold-bright);">JC</span>
-              </div>
-              <div class="text-xs tracking-widest uppercase font-light text-center" style="color: var(--gold-bright);">
-                Ms. Jho Celine
-              </div>
-              <div class="text-white/30 text-xs mt-1 font-light">Lead Artist & Founder</div>
-            </div>
+            <img src="/jho.jpg" a="Jho">
 
             <!-- Corner ornaments -->
             <div class="absolute top-4 left-4 w-8 h-8 border-t-2 border-l-2" style="border-color: var(--gold-bright);"></div>

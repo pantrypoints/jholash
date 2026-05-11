@@ -66,7 +66,11 @@
         style="border-color: var(--gold-bright); color: var(--gold-bright);"
         aria-label="Facebook"
       >
-        <!-- <Facebook size={15} /> -->
+            <svg fill="currentColor" height="16" width="16" version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" 
+               viewBox="-337 273 123.5 256" xml:space="preserve">
+              <path d="M-260.9,327.8c0-10.3,9.2-14,19.5-14c10.3,0,21.3,3.2,21.3,3.2l6.6-39.2c0,0-14-4.8-47.4-4.8c-20.5,0-32.4,7.8-41.1,19.3
+              c-8.2,10.9-8.5,28.4-8.5,39.7v25.7H-337V396h26.5v133h49.6V396h39.3l2.9-38.3h-42.2V327.8z"/>
+            </svg>
       </a>
       <a
         href="https://www.tiktok.com/@jholashabrows1980"
@@ -169,7 +173,12 @@
             rel="noopener"
             class="flex items-center gap-2 text-white/60 hover:text-white text-sm font-light transition-colors"
           >
-            <!-- <Facebook size={16} /> Facebook -->
+
+            <svg fill="currentColor" height="16" width="16" version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" 
+               viewBox="-337 273 123.5 256" xml:space="preserve">
+              <path d="M-260.9,327.8c0-10.3,9.2-14,19.5-14c10.3,0,21.3,3.2,21.3,3.2l6.6-39.2c0,0-14-4.8-47.4-4.8c-20.5,0-32.4,7.8-41.1,19.3
+              c-8.2,10.9-8.5,28.4-8.5,39.7v25.7H-337V396h26.5v133h49.6V396h39.3l2.9-38.3h-42.2V327.8z"/>
+            </svg> Facebook
           </a>
         </div>
         <div class="flex gap-3 mt-3">
