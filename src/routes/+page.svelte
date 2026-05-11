@@ -418,42 +418,7 @@
   </div>
 
   <!-- Ticker Container -->
-  <div class="relative w-full overflow-hidden py-8" style="border-top: 1px solid rgba(212,168,67,0.2); border-bottom: 1px solid rgba(212,168,67,0.2);">
-    <!-- Gradient masks for smooth edges -->
-    <div class="absolute left-0 top-0 bottom-0 w-32 z-10 pointer-events-none" 
-      style="background: linear-gradient(90deg, var(--purple-deep) 0%, transparent 100%);"></div>
-    <div class="absolute right-0 top-0 bottom-0 w-32 z-10 pointer-events-none" 
-      style="background: linear-gradient(-90deg, var(--purple-deep) 0%, transparent 100%);"></div>
-
-    <!-- Scrolling track 1 -->
-    <div class="flex gap-16 items-center animate-ticker whitespace-nowrap" style="animation: ticker 25s linear infinite;">
-      {#each Array(6) as _}
-        <div class="flex-shrink-0 flex flex-col items-center gap-3 px-8">
-          <img src="/sp.png" alt="Superphysics" class="w-24 h-24 md:w-32 md:h-32 object-contain opacity-90 hover:opacity-100 transition-opacity duration-300" />
-          <span class="text-sm font-light tracking-widest uppercase" style="color: var(--gold-light);">Superphysics</span>
-        </div>
-        <div class="flex-shrink-0 flex flex-col items-center gap-3 px-8">
-          <img src="/pp.png" alt="Pantrypoints" class="w-24 h-24 md:w-32 md:h-32 object-contain opacity-90 hover:opacity-100 transition-opacity duration-300" />
-          <span class="text-sm font-light tracking-widest uppercase" style="color: var(--gold-light);">Pantrypoints</span>
-        </div>
-      {/each}
-    </div>
-
-    <!-- Scrolling track 2 (clone for seamless loop) -->
-    <div class="flex gap-16 items-center animate-ticker2 whitespace-nowrap" style="animation: ticker2 25s linear infinite; margin-top: -88px;">
-      {#each Array(6) as _}
-        <div class="flex-shrink-0 flex flex-col items-center gap-3 px-8">
-          <img src="/sp.png" alt="Superphysics" class="w-24 h-24 md:w-32 md:h-32 object-contain opacity-90 hover:opacity-100 transition-opacity duration-300" />
-          <span class="text-sm font-light tracking-widest uppercase" style="color: var(--gold-light);">Superphysics</span>
-        </div>
-        <div class="flex-shrink-0 flex flex-col items-center gap-3 px-8">
-          <img src="/pp.png" alt="Pantrypoints" class="w-24 h-24 md:w-32 md:h-32 object-contain opacity-90 hover:opacity-100 transition-opacity duration-300" />
-          <span class="text-sm font-light tracking-widest uppercase" style="color: var(--gold-light);">Pantrypoints</span>
-        </div>
-      {/each}
-    </div>
-  </div>
-</section>
+ </section>
 
 <style>
   @keyframes ticker {
