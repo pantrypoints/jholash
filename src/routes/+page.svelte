@@ -1,14 +1,14 @@
 <script lang="ts">
   import {
     Sparkles, Eye, Hand, Footprints, Smile, Star,
-    Palette, Send, MapPin, Phone, ChevronDown, CheckCircle
+    Palette, Send, MapPin, Phone, ChevronDown, CheckCircle, AlertCircle, X
   } from 'lucide-svelte';
   import { onMount } from 'svelte';
 
   let formData = $state({ name: '', email: '', phone: '', service: '', message: '' });
   let submitted = $state(false);
   let sending = $state(false);
-  let error = $state('');
+  let toast = $state<{ type: 'success' | 'error'; message: string } | null>(null);
 
   const services = [
     {
@@ -70,7 +70,8 @@
   async function handleSubmit(e: Event) {
     e.preventDefault();
     sending = true;
-    error = '';
+    toast = null;
+
     try {
       const res = await fetch('https://pantrypoints.com/api/external', {
         method: 'POST',
@@ -80,10 +81,18 @@
           ...formData,
         }),
       });
+
       if (!res.ok) throw new Error(`Server error: ${res.status}`);
+
       submitted = true;
+      toast = { type: 'success', message: '✓ Message sent! We\'ll reach out within 24 hours.' };
+      formData = { name: '', email: '', phone: '', service: '', message: '' };
+
+      // Auto-dismiss toast after 5 seconds
+      setTimeout(() => { toast = null; }, 5000);
     } catch (err: any) {
-      error = 'Something went wrong. Please try calling us directly at 0997 572 6866.';
+      toast = { type: 'error', message: 'Failed to send. Please call us: 0997 572 6866' };
+      console.error(err);
     } finally {
       sending = false;
     }
@@ -97,6 +106,29 @@
   <title>JhoLashBrow — Beauty & Wellness Hub | Bacoor, Cavite</title>
   <meta name="description" content="JhoLashBrow Beauty & Wellness Hub — SPMU, Eyelash Extensions, Nails, Facials, Aesthetics & Make Up. 50% off for 1st time clients! Bacoor, Cavite." />
 </svelte:head>
+
+<!-- TOAST NOTIFICATION -->
+{#if toast}
+  <div class="fixed top-4 right-4 z-[9999] animate-in slide-in-from-top-2 fade-in"
+    style={`
+      background: ${toast.type === 'success' ? 'linear-gradient(135deg, #10b981 0%, #059669 100%)' : 'linear-gradient(135deg, #ef4444 0%, #dc2626 100%)'};
+      box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+    `}>
+    <div class="flex items-center gap-3 px-5 py-4 text-white font-light">
+      <div>
+        {#if toast.type === 'success'}
+          <CheckCircle size={20} />
+        {:else}
+          <AlertCircle size={20} />
+        {/if}
+      </div>
+      <span class="text-sm tracking-wide">{toast.message}</span>
+      <button onclick={() => toast = null} class="ml-2 p-1 hover:bg-white/20 rounded transition-colors">
+        <X size={16} />
+      </button>
+    </div>
+  </div>
+{/if}
 
 <!-- ============================================================
      HERO
@@ -258,7 +290,6 @@
      MEET THE ARTIST — with video BG
 ============================================================ -->
 <section class="relative py-24 px-6 overflow-hidden min-h-[60vh] flex items-center">
-  <!-- Background Video -->
   <video
     class="absolute inset-0 w-full h-full object-cover"
     src="/jho.mp4"
@@ -267,7 +298,6 @@
     loop
     playsinline
   ></video>
-  <!-- Overlay -->
   <div class="absolute inset-0" style="background: linear-gradient(135deg, rgba(45,27,78,0.88) 0%, rgba(13,7,32,0.82) 100%);"></div>
 
   <div class="relative max-w-4xl mx-auto text-center w-full">
@@ -316,6 +346,90 @@
         style="background: linear-gradient(160deg, var(--purple-deep), #1A0A30); border-color: rgba(212,168,67,0.3);">
         <CheckCircle size={48} style="color: var(--gold-bright); margin: 0 auto 1rem;" />
         <div class="font-display text-3xl text-white mb-3">Thank You!</div>
+        <p class="text-white/60 font-light">We've received your message and will reach out within 24 hours.</p>
+        <p class="text-white/40 text-sm mt-2 font-light">Or call us directly: <a href="tel:09975726866" class="underline" style="color: var(--gold-bright);">0997 572 6866</a></p>
+        <button
+          onclick={() => { submitted = false; }}
+          class="mt-6 text-sm tracking-widest uppercase font-light border px-8 py-3 transition-all hover:bg-white/10"
+          style="border-color: var(--gold-bright); color: var(--gold-bright);">
+          Send Another
+        </button>
+      </div>
+    {:else}
+<form action="https://pantrypoints.com/api/external" method="POST" class="space-y-5">
+  <div class="grid grid-cols-1 sm:grid-cols-2 gap-5">
+    <div>
+      <label class="block text-xs tracking-widest uppercase font-light mb-2" style="color: var(--purple-mid);">Full Name *</label>
+      <input type="text" name="name" required placeholder="Your name"
+        class="w-full px-5 py-3.5 text-sm font-light border-0 border-b-2 bg-white focus:outline-none transition-colors"
+        style="border-color: var(--purple-pale); color: var(--charcoal);"
+        onfocus={(e) => (e.target as HTMLInputElement).style.borderColor = 'var(--gold-bright)'}
+        onblur={(e) => (e.target as HTMLInputElement).style.borderColor = 'var(--purple-pale)'} />
+    </div>
+    <div>
+      <label class="block text-xs tracking-widest uppercase font-light mb-2" style="color: var(--purple-mid);">Phone Number *</label>
+      <input type="tel" name="phone" required placeholder="09XX XXX XXXX"
+        class="w-full px-5 py-3.5 text-sm font-light border-0 border-b-2 bg-white focus:outline-none transition-colors"
+        style="border-color: var(--purple-pale); color: var(--charcoal);"
+        onfocus={(e) => (e.target as HTMLInputElement).style.borderColor = 'var(--gold-bright)'}
+        onblur={(e) => (e.target as HTMLInputElement).style.borderColor = 'var(--purple-pale)'} />
+    </div>
+  </div>
+
+  <div>
+    <label class="block text-xs tracking-widest uppercase font-light mb-2" style="color: var(--purple-mid);">Email Address</label>
+    <input type="email" name="email" placeholder="your@email.com"
+      class="w-full px-5 py-3.5 text-sm font-light border-0 border-b-2 bg-white focus:outline-none transition-colors"
+      style="border-color: var(--purple-pale); color: var(--charcoal);"
+      onfocus={(e) => (e.target as HTMLInputElement).style.borderColor = 'var(--gold-bright)'}
+      onblur={(e) => (e.target as HTMLInputElement).style.borderColor = 'var(--purple-pale)'} />
+  </div>
+
+  <div>
+    <label class="block text-xs tracking-widest uppercase font-light mb-2" style="color: var(--purple-mid);">Service Interested In</label>
+    <select name="service"
+      class="w-full px-5 py-3.5 text-sm font-light border-0 border-b-2 bg-white focus:outline-none transition-colors appearance-none"
+      style="border-color: var(--purple-pale); color: var(--charcoal);"
+      onfocus={(e) => (e.target as HTMLSelectElement).style.borderColor = 'var(--gold-bright)'}
+      onblur={(e) => (e.target as HTMLSelectElement).style.borderColor = 'var(--purple-pale)'}>
+      <option value="">Select a service...</option>
+      {#each serviceOptions as opt}
+        <option value={opt}>{opt}</option>
+      {/each}
+    </select>
+  </div>
+
+  <div>
+    <label class="block text-xs tracking-widest uppercase font-light mb-2" style="color: var(--purple-mid);">Message</label>
+    <textarea name="message" rows="4"
+      placeholder="Preferred schedule, questions, or anything you'd like us to know..."
+      class="w-full px-5 py-3.5 text-sm font-light border-0 border-b-2 bg-white focus:outline-none transition-colors resize-none"
+      style="border-color: var(--purple-pale); color: var(--charcoal);"
+      onfocus={(e) => (e.target as HTMLTextAreaElement).style.borderColor = 'var(--gold-bright)'}
+      onblur={(e) => (e.target as HTMLTextAreaElement).style.borderColor = 'var(--purple-pale)'}></textarea>
+  </div>
+
+  <input type="hidden" name="source" value="jholashbrow-website" />
+
+  <div class="pt-2">
+    <button type="submit"
+      class="w-full flex items-center justify-center gap-3 py-4 text-sm tracking-widest uppercase font-medium transition-all duration-300 hover:scale-[1.01]"
+      style="background: linear-gradient(135deg, var(--purple-deep), var(--purple-rich)); color: var(--gold-bright);">
+      <Send size={16} />
+      Book Appointment
+    </button>
+  </div>
+</form>
+    {/if}
+  </div>
+</section>
+
+<!-- 
+    {#if submitted}
+      <div class="text-center py-16 rounded-2xl border"
+        style="background: linear-gradient(160deg, var(--purple-deep), #1A0A30); border-color: rgba(212,168,67,0.3);">
+        <CheckCircle size={48} style="color: var(--gold-bright); margin: 0 auto 1rem;" />
+        <div class="font-display text-3xl text-white mb-3">Thank You!</div>
         <p class="text-white/60 font-light">We've received your message and will reach out soon.</p>
         <p class="text-white/40 text-sm mt-2 font-light">Or call us directly: <a href="tel:09975726866" class="underline" style="color: var(--gold-bright);">0997 572 6866</a></p>
         <button
@@ -330,7 +444,7 @@
         <div class="grid grid-cols-1 sm:grid-cols-2 gap-5">
           <div>
             <label class="block text-xs tracking-widest uppercase font-light mb-2" style="color: var(--purple-mid);">Full Name *</label>
-            <input type="text" bind:value={formData.name} required placeholder="Your name"
+            <input name="name" type="text" bind:value={formData.name} required placeholder="Your name"
               class="w-full px-5 py-3.5 text-sm font-light border-0 border-b-2 bg-white focus:outline-none transition-colors"
               style="border-color: var(--purple-pale); color: var(--charcoal);"
               onfocus={(e) => (e.target as HTMLInputElement).style.borderColor = 'var(--gold-bright)'}
@@ -338,7 +452,7 @@
           </div>
           <div>
             <label class="block text-xs tracking-widest uppercase font-light mb-2" style="color: var(--purple-mid);">Phone Number *</label>
-            <input type="tel" bind:value={formData.phone} required placeholder="09XX XXX XXXX"
+            <input name="phone"  type="tel" bind:value={formData.phone} required placeholder="09XX XXX XXXX"
               class="w-full px-5 py-3.5 text-sm font-light border-0 border-b-2 bg-white focus:outline-none transition-colors"
               style="border-color: var(--purple-pale); color: var(--charcoal);"
               onfocus={(e) => (e.target as HTMLInputElement).style.borderColor = 'var(--gold-bright)'}
@@ -348,7 +462,7 @@
 
         <div>
           <label class="block text-xs tracking-widest uppercase font-light mb-2" style="color: var(--purple-mid);">Email Address</label>
-          <input type="email" bind:value={formData.email} placeholder="your@email.com"
+          <input name="email"  type="email" bind:value={formData.email} placeholder="your@email.com"
             class="w-full px-5 py-3.5 text-sm font-light border-0 border-b-2 bg-white focus:outline-none transition-colors"
             style="border-color: var(--purple-pale); color: var(--charcoal);"
             onfocus={(e) => (e.target as HTMLInputElement).style.borderColor = 'var(--gold-bright)'}
@@ -358,6 +472,7 @@
         <div>
           <label class="block text-xs tracking-widest uppercase font-light mb-2" style="color: var(--purple-mid);">Service Interested In</label>
           <select bind:value={formData.service}
+            name="subj" 
             class="w-full px-5 py-3.5 text-sm font-light border-0 border-b-2 bg-white focus:outline-none transition-colors appearance-none"
             style="border-color: var(--purple-pale); color: var(--charcoal);"
             onfocus={(e) => (e.target as HTMLSelectElement).style.borderColor = 'var(--gold-bright)'}
@@ -372,6 +487,7 @@
         <div>
           <label class="block text-xs tracking-widest uppercase font-light mb-2" style="color: var(--purple-mid);">Message</label>
           <textarea bind:value={formData.message} rows="4"
+            name="msg" 
             placeholder="Preferred schedule, questions, or anything you'd like us to know..."
             class="w-full px-5 py-3.5 text-sm font-light border-0 border-b-2 bg-white focus:outline-none transition-colors resize-none"
             style="border-color: var(--purple-pale); color: var(--charcoal);"
@@ -402,7 +518,7 @@
     {/if}
   </div>
 </section>
-
+ -->
 
 
 <!-- ============================================================
